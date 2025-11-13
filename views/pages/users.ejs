@@ -1,0 +1,15 @@
+<main class="container">
+  <h1 class="title">List Of Users</h1>
+  <p class="subtitle">This is a list of users. You can click on a user to view their details.</p>
+  <div class="user-list">
+    <% users.forEach(user => { %>
+      <div class="user-card">
+        <div class="user-info">
+          <h2><%= user.name %></h2>
+          <p class="email"><%= user.email %></p>
+        </div>
+        <a href="/users/<%= user.id %>" class="btn">View User →</a>
+      </div>
+    <% }) %>
+  </div>
+</main>
