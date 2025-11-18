@@ -1,30 +1,30 @@
 export interface Post {
-userId: number;
-id: number;
-title: string;
-body: string;
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
 }
 
 export interface Comment {
-postId: number;
-id: number;
-name: string;
-email: string;
-body: string;
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
 }
 
 export interface User {
-id: number;
-name: string;
-username: string;
-email: string;
-phone: string;
-website: string;
-company: {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  website: string;
+  company: {
     name: string;
-};
-address: {
+  };
+  address: {
     city: string;
     street: string;
-};
+  };
 }

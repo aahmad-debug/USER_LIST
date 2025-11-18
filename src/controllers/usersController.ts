@@ -1,69 +1,42 @@
 import { Request, Response } from "express";
 import axios from "axios";
-import { Post, User, Comment } from "../types";
 
+const API = process.env["JSONPLACEHOLDER_API"] ?? "https://jsonplaceholder.typicode.com";
 
 export async function listUsers(req: Request, res: Response) {
-try {
-    const response = await axios.get("https://jsonplaceholder.typicode.com/users");
+  try {
+    const response = await axios.get(`${API}/users`);
     const users = response.data;
 
     res.render("pages/users", {
-    title: "Users List",
-    users,
+      title: "Users List",
+      users,
     });
-} catch (error) {
-    res.status(500).send("Error fetching users list");
-}
+  } catch (error) {
+    console.error("❌ Error in listUsers:", error);
+    res.status(500).send("Error fetching users");
+  }
 }
 
-export async function userDetails(req: Request, res: Response) {
-try {
-    const { id } = req.params;
+export async function userDetails(req: Request<{ id: string }>, res: Response) {
+  try {
+    const id = Number(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).send("Invalid user ID");
+    }
 
-    const userRes = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
-    const postsRes = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}/posts`);
+    const [userRes, postsRes] = await Promise.all([
+      axios.get(`${API}/users/${id}`),
+      axios.get(`${API}/users/${id}/posts`),
+    ]);
 
     res.render("pages/user-details", {
-    title: "User Details",
-    user: userRes.data,
-    posts: postsRes.data,
+      title: "User Details",
+      user: userRes.data,
+      posts: postsRes.data,
     });
-} catch (error) {
+  } catch (error) {
+    console.error("❌ Error in userDetails:", error);
     res.status(500).send("Error fetching user details");
-}
-}
-
-
-export async function postDetails(req: Request, res: Response) {
-try {
-    const { id } = req.params;
-
-
-    const postRes = await axios.get<Post>(
-    `https://jsonplaceholder.typicode.com/posts/${id}`
-    );
-    const post = postRes.data;
-
-
-    const userRes = await axios.get<User>(
-    `https://jsonplaceholder.typicode.com/users/${post.userId}`
-    );
-    const user = userRes.data;
-
-
-    const commentsRes = await axios.get<Comment[]>(
-    `https://jsonplaceholder.typicode.com/posts/${id}/comments`
-    );
-    const comments = commentsRes.data;
-
-    res.render("pages/post-details", {
-    title: "Post Details",
-    post,
-    user,
-    comments,
-    });
-} catch (error) {
-    res.status(500).send("Error fetching post details");
-}
+  }
 }
