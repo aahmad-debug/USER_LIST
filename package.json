@@ -19,7 +19,8 @@
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "express-ejs-layouts": "^2.5.1"
+    "express-ejs-layouts": "^2.5.1",
+    "mongodb": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
