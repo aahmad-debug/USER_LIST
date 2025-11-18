@@ -15,16 +15,13 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      "prettier/prettier": "error", // يجعل Prettier جزء من ESLint
+      "prettier/prettier": "error",
     },
   },
 
-  // قواعد JavaScript الأساسية
   js.configs.recommended,
 
-  // قواعد TypeScript
   ...tseslint.configs.recommended,
 
-  // تعطيل أي تعارض بين ESLint و Prettier
   eslintConfigPrettier,
 ]);
